@@ -19,7 +19,7 @@ struct ParsedUrl {
 
 /// Parse a vector of URLs and return a DataFrame with parsed components
 #[extendr]
-fn parse_url(urls: Vec<String>) -> Dataframe<ParsedUrl> {
+fn rs_url_parse(urls: Vec<String>) -> Dataframe<ParsedUrl> {
     let mut parsed_urls = Vec::new();
 
     for url in urls {
@@ -52,8 +52,6 @@ fn parse_url(urls: Vec<String>) -> Dataframe<ParsedUrl> {
             }
         }
     }
-
-    // Convert the vector of structs into a DataFrame
     parsed_urls.into_dataframe().unwrap()
 }
 
@@ -86,6 +84,6 @@ fn parse_url_string(urls: Vec<String>) -> Vec<String> {
 // See corresponding C code in `entrypoint.c`.
 extendr_module! {
     mod urlparser;
-    fn parse_url;
+    fn rs_url_parse;
     fn parse_url_string;
 }
