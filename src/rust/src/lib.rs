@@ -6,6 +6,7 @@ use url::Url;
 #[extendr]
 #[derive(Debug, IntoDataFrameRow)]
 struct ParsedUrl {
+    url: String,
     scheme: String,
     host: String,
     port: String,
@@ -13,8 +14,7 @@ struct ParsedUrl {
     query: String,
     fragment: String,
     username: String,
-    password: String,
-    error: String,
+    password: String
 }
 
 /// Parse a vector of URLs and return a DataFrame with parsed components
@@ -26,6 +26,7 @@ fn rs_url_parse(urls: Vec<String>) -> Dataframe<ParsedUrl> {
         match Url::parse(&url) {
             Ok(parsed_url) => {
                 parsed_urls.push(ParsedUrl {
+                    url: url.to_string(),
                     scheme: parsed_url.scheme().to_string(),
                     host: parsed_url.host_str().unwrap_or("").to_string(),
                     port: parsed_url.port().map_or("".to_string(), |p| p.to_string()),
@@ -33,12 +34,12 @@ fn rs_url_parse(urls: Vec<String>) -> Dataframe<ParsedUrl> {
                     query: parsed_url.query().unwrap_or("").to_string(),
                     fragment: parsed_url.fragment().unwrap_or("").to_string(),
                     username: parsed_url.username().to_string(),
-                    password: parsed_url.password().unwrap_or("").to_string(),
-                    error: "".to_string(),
+                    password: parsed_url.password().unwrap_or("").to_string()
                 });
             }
             Err(_) => {
                 parsed_urls.push(ParsedUrl {
+                    url: url.to_string(),
                     scheme: "".to_string(),
                     host: "".to_string(),
                     port: "".to_string(),
@@ -46,37 +47,12 @@ fn rs_url_parse(urls: Vec<String>) -> Dataframe<ParsedUrl> {
                     query: "".to_string(),
                     fragment: "".to_string(),
                     username: "".to_string(),
-                    password: "".to_string(),
-                    error: "Invalid URL".to_string(),
+                    password: "".to_string()
                 });
             }
         }
     }
     parsed_urls.into_dataframe().unwrap()
-}
-
-#[extendr]
-fn parse_url_string(urls: Vec<String>) -> Vec<String> {
-    urls.into_iter()
-        .map(|url| {
-            match Url::parse(&url) {
-                Ok(parsed_url) => {
-                    format!(
-                        "{},{},{},{},{},{},{},{}",
-                        parsed_url.scheme(),
-                        parsed_url.host_str().unwrap_or("").to_string(),
-                        parsed_url.port().map_or("".to_string(), |p| p.to_string()),
-                        parsed_url.path().to_string(),
-                        parsed_url.query().unwrap_or("").to_string(),
-                        parsed_url.fragment().unwrap_or("").to_string(),
-                        parsed_url.username().to_string(),
-                        parsed_url.password().unwrap_or("").to_string()
-                    )
-                }
-                Err(_) => "Invalid URL".to_string(),
-            }
-        })
-        .collect()
 }
 
 // Macro to generate exports.
@@ -85,5 +61,4 @@ fn parse_url_string(urls: Vec<String>) -> Vec<String> {
 extendr_module! {
     mod urlparser;
     fn rs_url_parse;
-    fn parse_url_string;
 }
