@@ -4,3 +4,4 @@
 ^src/Makevars\.win$
 ^data-raw$
 ^README\.Rmd$
+^LICENSE\.md$
