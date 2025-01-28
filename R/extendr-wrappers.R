@@ -11,7 +11,7 @@
 NULL
 
 #' Parse a vector of URLs and return a DataFrame with parsed components
-rs_url_parse <- function(urls) .Call(wrap__rs_url_parse, urls)
+url_parse <- function(urls) .Call(wrap__url_parse, urls)
 
 
 # nolint end

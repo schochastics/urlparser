@@ -9,3 +9,5 @@ bench::mark(check=FALSE,
   ada_url_parse(top100),
   rs_url_parse(top100)
 )
+
+urlparser::
