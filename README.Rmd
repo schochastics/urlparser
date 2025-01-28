@@ -1,0 +1,40 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# urlparser
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+A simple url parser that wraps the crate [url](https://crates.io/crates/url).
+
+## Installation
+
+You can install the development version of urlparser from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("schochastics/urlparser")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(urlparser)
+rs_url_parse("https://user_1:password_1@example.org:8080/dir/../api?q=1#frag")
+```
+
