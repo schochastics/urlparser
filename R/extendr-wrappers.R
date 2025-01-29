@@ -10,7 +10,6 @@
 #' @useDynLib urlparser, .registration = TRUE
 NULL
 
-#' Parse a vector of URLs and return a DataFrame with parsed components
 url_parse <- function(urls) .Call(wrap__url_parse, urls)
 
 
